@@ -17,6 +17,9 @@ For more permanent run you will probably will want to use
 [uwsgi](http://uwsgi-docs.readthedocs.org/), I even included a sample 
 config file you can use. 
 
+### Live demo
+http://7xx.arti.ee/
+
 Licence
 -------
 WTFPL
