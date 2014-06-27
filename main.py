@@ -24,7 +24,7 @@ html = """
         <h1>HTTP ERROR {error_code}</h1>
         <p>{error_message}<!--<a href="http://arti.ee/">Go back</a>--></p>
         <hr>
-        <small>Good luck!</small>
+        <small><a href="https://github.com/arti95/7xx-error-generator" style="color:black;">Source code</a></small>,  <small>Good luck!</small>
     </body>
 </html>
 """
