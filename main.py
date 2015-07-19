@@ -44,7 +44,7 @@ def application(env, start_response):
     message = random.choice(errors)
 
     if env["PATH_INFO"] == "/json":
-        start_response("200 OK", [('Content-Type', 'application/json')])
+        start_response("{} {}".format(message[0], message[1].upper()), [('Content-Type', 'application/json')])
         return [json.dumps({"error_code": message[0], "error_message": message[1]}).encode()]
 
     if env["PATH_INFO"] == "/jsonp":
@@ -52,10 +52,10 @@ def application(env, start_response):
             start_response("400 Bad Request", [('Content-Type', 'text/plain')])
             return ["You forgot to add a callable, example: /jsonp?display_error".encode()]
         c = ''.join([i if (ord(i) < 122) and (ord(i) > 65) else '' for i in env['QUERY_STRING']])
-        start_response("200 OK", [('Content-Type', 'application/javascript')])
+        start_response("{} {}".format(message[0], message[1].upper()), [('Content-Type', 'application/javascript')])
         return ["{}({});".format(c, json.dumps({"error_code": message[0], "error_message": message[1]})).encode()]
 
-    start_response('200 OK', [('Content-Type', 'text/html')])
+    start_response("{} {}".format(message[0], message[1].upper()), [('Content-Type', 'text/html')])
     return [html.format(error_code=message[0], error_message=message[1]).encode()]
 
 
