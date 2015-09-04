@@ -14,13 +14,35 @@ html = """
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
         <link rel="icon" type="image/x-icon" href="favicon.ico" />
+        <style>
+        body {{
+            margin: 10px auto;
+            max-width: 650px;
+            line-height: 1.6;
+            font-size: 18px;
+            color: #444;
+            padding: 0 10px
+        }}
+
+        h1,h2,h3 {{
+            line-height: 1.2
+        }}
+
+        hr {{
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 1em 0;
+            padding: 0;
+        }}
+        </style>
     </head>
-    <body style="margin-left: 3em; margin-right:3em;">
+    <body>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <br>
         <h1>HTTP ERROR {error_code}</h1>
         <p>{error_message}<!--<a href="http://arti.ee/">Go back</a>--></p>
         <hr>
