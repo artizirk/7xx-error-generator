@@ -7,10 +7,12 @@ s = """
     - 703 - Explosion
     - 704 - Goto Fail
     - 705 - I wrote the code and missed the necessary validation by an oversight (see 795)
+    - 706 - Delete Your Account
   * 71X - Novelty Implementations
     - 710 - PHP
     - 711 - Convenience Store
     - 712 - NoSQL
+    - 718 - Haskell
     - 719 - I am not a teapot
   * 72X - Edge Cases
     - 720 - Unpossible
@@ -22,6 +24,7 @@ s = """
     - 726 - It's a feature, not a bug
     - 727 - 32 bits is plenty
   * 73X - Fucking
+    - 730 - Fucking Bower
     - 731 - Fucking Rubygems
     - 732 - Fucking Unic💩de
     - 733 - Fucking Deadlocks
@@ -65,6 +68,7 @@ s = """
     - 772 - Not cached long enough
     - 773 - Not cached at all
     - 774 - Why was this cached?
+    - 775 - Out of cash
     - 776 - Error on the Exception
     - 777 - Coincidence
     - 778 - Off By One Error
@@ -78,8 +82,10 @@ s = """
     - 785 - TPS Cover Sheet not attached
     - 786 - Try it now
     - 787 - Further Funding Required
+    - 788 - Designer's final designs weren't
+    - 789 - Not my department
   * 79X - Internet crashed
-    - 791 - The Internet shut down due to copyright restrictions.
+    - 791 - The Internet shut down due to copyright restrictions
     - 792 - Climate change driven catastrophic weather event
     - 793 - Zombie Apocalypse
     - 794 - Someone let PG near a REPL
