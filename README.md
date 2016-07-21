@@ -21,7 +21,7 @@ Live demo server
 ----------------
 It’s located there: http://7xx.arti.ee/
 
-JSON API
+API
 --------
 Well ofcourse it has a json api
 
@@ -40,16 +40,15 @@ Server: WSGIServer/0.2 CPython/3.4.1
 }
 ```
 
-and also we have a [JSONP](http://en.wikipedia.org/wiki/JSONP) enpoint at `/jsonp`
-```
-‣ http GET localhost:8080/jsonp?ShowMeAError
-HTTP/1.0 200 OK
-Content-Length: 65
-Content-Type: application/javascript
-Date: Fri, 27 Jun 2014 14:55:18 GMT
-Server: WSGIServer/0.2 CPython/3.4.1
+You can also curl this webapp and get messages formated as plain text
 
-ShowMeError({"error_code": "741", "error_message": "Compiling"});
+```
+‣ curl http://localhost:8080/
+742 A kitten dies
+‣ # or
+‣ curl http://localhost:8080/plain
+726 It's a feature, not a bug
+
 ```
 
 Licence
