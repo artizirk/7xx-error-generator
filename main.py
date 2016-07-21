@@ -71,7 +71,7 @@ def is_curl(user_agent):
 
 def application(env, start_response):
     if env["PATH_INFO"] == "/favicon.ico":
-        start_response('200 OK', [('Content-Type', 'image/x-icon')])
+        start_response('200 OK', [('Content-Type', 'image/x-icon'), ('Cache-Control', 'max-age=86400'), ('ETag', 'uwot1')])
         return [base64.b64decode(favicon)]
 
     if env["PATH_INFO"] == "/docs":
@@ -81,15 +81,15 @@ def application(env, start_response):
     message = random.choice(errors)
 
     if env["PATH_INFO"] == "/json":
-        start_response("200 OK", [('Content-Type', 'application/json; charset=utf-8'), ('Access-Control-Allow-Origin', '*')])
+        start_response("200 OK", [('Content-Type', 'application/json; charset=utf-8'), ('Access-Control-Allow-Origin', '*'), ('Cache-Control', 'no-store')])
         return [json.dumps({"error_code": message[0], "error_message": message[1]}).encode()]
 
     if is_curl(env.get("HTTP_USER_AGENT", "")) and env["PATH_INFO"] != "/html"  or env["PATH_INFO"] == "/plain":
-        start_response('200 OK', [('Content-Type', 'text/plain; charset=utf-8'), ('Access-Control-Allow-Origin', '*')])
+        start_response('200 OK', [('Content-Type', 'text/plain; charset=utf-8'), ('Access-Control-Allow-Origin', '*'), ('Cache-Control', 'no-store')])
         return ["{error_code} {error_message}\n".format(error_code=message[0], error_message=message[1]).encode()]
         
     
-    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
+    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8'), ('Cache-Control', 'no-store')])
     return [html.format(error_code=message[0], error_message=message[1]).encode()]
 
 
