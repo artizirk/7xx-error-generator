@@ -44,40 +44,52 @@ html = """
         <![endif]-->
 
         <h1>HTTP ERROR {error_code}</h1>
-        <p>{error_message}<!--<a href="http://arti.ee/">Go back</a>--></p>
+        <p>{error_message}</p>
         <hr>
-        <small><a href="https://github.com/arti95/7xx-error-generator" style="color:black;">Source code</a></small>,  <small>Good luck!</small>
+        <small><a href="https://github.com/arti95/7xx-error-generator" style="color:black;">Source code</a> | <a href="/docs" style="color:black;">API Docs</a></small>,  <small>Good luck!</small>
     </body>
 </html>
 """
 
 favicon = b'AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAP//AAD//wAA//8AANudAADdawAA3vcAAO73AAD1awAAg50AAP//AAD//wAA//8AAP//AAD//wAA'
 
+docs = """
+<p>7xx error generator, like any other modern web service, has some API endpoints: <p>
+<p><a href="/json">/json</a> endpoint for return the error in json format. <br>
+<a href="/plain">/plain</a> endpoint returns the error as plain text in a single line. <br>
+When accessing this website using <i>curl</i> or <a href="https://github.com/jkbrzt/httpie"><i>httpie</i></a> the error will also be returned as plain text. <br>
+<a href="/html">/html</a> endpoint forces the returned error to be formated as html page.</p>
+"""
+
 f = open("7xx-errors.json", "rb")
 errors = json.loads(f.read().decode())
 f.close()
 
+def is_curl(user_agent):
+    ua = user_agent.lower()
+    return "curl" in ua or "httpie" in ua
 
 def application(env, start_response):
     if env["PATH_INFO"] == "/favicon.ico":
         start_response('200 OK', [('Content-Type', 'image/x-icon')])
         return [base64.b64decode(favicon)]
 
+    if env["PATH_INFO"] == "/docs":
+        start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
+        return [html.format(error_code="API DOCS", error_message=docs).encode()]
+
     message = random.choice(errors)
 
     if env["PATH_INFO"] == "/json":
-        start_response("200 OK", [('Content-Type', 'application/json')])
+        start_response("200 OK", [('Content-Type', 'application/json; charset=utf-8'), ('Access-Control-Allow-Origin', '*')])
         return [json.dumps({"error_code": message[0], "error_message": message[1]}).encode()]
 
-    if env["PATH_INFO"] == "/jsonp":
-        if not env["QUERY_STRING"]:
-            start_response("400 Bad Request", [('Content-Type', 'text/plain')])
-            return ["You forgot to add a callable, example: /jsonp?display_error".encode()]
-        c = ''.join([i if (ord(i) < 122) and (ord(i) > 65) else '' for i in env['QUERY_STRING']])
-        start_response("200 OK", [('Content-Type', 'application/javascript')])
-        return ["{}({});".format(c, json.dumps({"error_code": message[0], "error_message": message[1]})).encode()]
-
-    start_response('200 OK', [('Content-Type', 'text/html')])
+    if is_curl(env.get("HTTP_USER_AGENT", "")) and env["PATH_INFO"] != "/html"  or env["PATH_INFO"] == "/plain":
+        start_response('200 OK', [('Content-Type', 'text/plain; charset=utf-8'), ('Access-Control-Allow-Origin', '*')])
+        return ["{error_code} {error_message}\n".format(error_code=message[0], error_message=message[1]).encode()]
+        
+    
+    start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
     return [html.format(error_code=message[0], error_message=message[1]).encode()]
 
 
