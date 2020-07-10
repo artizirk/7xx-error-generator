@@ -103,7 +103,7 @@ def application(env, start_response):
         return ["{error_code} {error_message}\n".format(error_code=message[0], error_message=message[1]).encode()]
 
     if env["PATH_INFO"] == "/svg":
-        start_response("200 OK", [('Content-Type', 'image/svg+xml'), ('Access-Control-Allow-Origin', '*'), ('Cache-Control', 'no-store')])
+        start_response("200 OK", [('Content-Type', 'image/svg+xml'), ('Access-Control-Allow-Origin', '*'), ('Cache-Control', 'max-age=0, no-cache, no-store, must-revalidate')])
         message_len = len(message[1])
         args = {
             "width": 150,
