@@ -92,6 +92,14 @@ def application(env, start_response):
         start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
         return [html.format(error_code="API DOCS", error_message=docs).encode()]
 
+    if env["PATH_INFO"] == "/fortune":
+        """Return data in fortune-mod format"""
+        start_response('200 OK', [('Content-Type', 'text/plain; charset=utf-8'), ('Access-Control-Allow-Origin', '*'), ('Cache-Control', 'no-store')])
+        messages = []
+        for message in errors:
+            messages.append("{error_code} {error_message}\n".format(error_code=message[0], error_message=message[1]))
+        return ["%\n".join(messages).encode(), b"%\n"]
+
     message = random.choice(errors)
 
     if env["PATH_INFO"] == "/json":
